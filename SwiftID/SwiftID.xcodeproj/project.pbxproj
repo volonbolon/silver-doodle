@@ -89,6 +89,7 @@
 		79880A4B240F212200878C2B /* SwiftID */ = {
 			isa = PBXGroup;
 			children = (
+				79880A7A240F259C00878C2B /* Dependencies */,
 				79880A70240F236300878C2B /* Models */,
 				79880A4C240F212200878C2B /* AppDelegate.swift */,
 				79880A4E240F212200878C2B /* SceneDelegate.swift */,
@@ -120,6 +121,13 @@
 				79880A76240F23B500878C2B /* Error.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		79880A7A240F259C00878C2B /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Dependencies;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
