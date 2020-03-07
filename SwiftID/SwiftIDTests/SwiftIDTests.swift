@@ -7,28 +7,49 @@
 //
 
 import XCTest
+import Swinject
+
 @testable import SwiftID
 
 class SwiftIDTests: XCTestCase {
+    private let container = Container()
 
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
+        super.setUp()
 
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+        container.register(Currency.self) { _ in
+            .USD
+        }
 
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
+        container.register(CryptoCurrency.self) { _ in
+            .BTC
+        }
 
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+        container.register(Price.self) { (resolver) -> Price in
+            guard let crypto = resolver.resolve(CryptoCurrency.self),
+                let currency = resolver.resolve(Currency.self) else {
+                fatalError("Unable to resolve Crypto or currency")
+            }
+            return Price(base: crypto, amount: "999456", currency: currency)
+        }
+
+        container.register(PriceResponse.self) { (resolver) -> PriceResponse in
+            guard let price = resolver.resolve(Price.self) else {
+                fatalError("Unable to resolve price")
+            }
+            return PriceResponse(data: price, warnings: nil)
         }
     }
 
+    override func tearDown() {
+        super.tearDown()
+        container.removeAll()
+    }
+
+    func testPriceResponseData() {
+        guard let response = container.resolve(PriceResponse.self) else {
+            fatalError("Unable to resolve Price Response")
+        }
+        XCTAssertEqual(response.data.amount, "999456")
+    }
 }

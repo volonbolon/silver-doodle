@@ -1,0 +1,12 @@
+use_frameworks!
+
+target 'SwiftID' do
+  pod 'Swinject'
+  pod 'SwinjectAutoregistration'
+  pod 'SwinjectStoryboard'
+  
+  target 'SwiftIDTests' do
+    pod 'Swinject'
+    pod 'SwinjectAutoregistration'
+  end
+end
